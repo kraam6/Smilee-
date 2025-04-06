@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comfort Message</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(120deg, #ab83e2, #fbaaa3);
+            font-family: 'Helvetica', sans-serif;
+            overflow: hidden;
+        }
+
+        .message-box {
+            background: #4e2a84;
+            padding: 40px;
+            border-radius: 25px;
+            box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            max-width: 500px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            transform: perspective(1000px);
+            animation: bounce 3s ease-in-out infinite;
+        }
+
+        .message-box h1 {
+            font-size: 2.5rem;
+            letter-spacing: 1.5px;
+            font-weight: bold;
+            margin-bottom: 25px;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 4s ease-in-out infinite;
+        }
+
+        .message-box p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #f0d4d4;
+            max-width: 80%;
+            margin: 0 auto;
+            animation: fadeIn 4s ease-in-out infinite;
+        }
+
+        .gif-container {
+            margin-top: 25px;
+            animation: zoomIn 5s ease-in-out infinite;
+        }
+
+        /* Keyframe Animations */
+        @keyframes bounce {
+            0% {
+                transform: rotateX(0deg);
+            }
+            50% {
+                transform: rotateX(15deg);
+            }
+            100% {
+                transform: rotateX(0deg);
+            }
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+
+        @keyframes zoomIn {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="message-box">
+        <h1>You're Truly Incredible</h1>
+        <p>Hey, no matter what you're going through, always remember that you are strong, you are loved, and you are never alone. Together, we'll get through anything. Take your time, breathe, and know that everything will fall into place. You've got this, my friend.</p>
+
+        <div class="gif-container">
+            <!-- Replace this GIF URL with the one you prefer -->
+            <img src="https://media.giphy.com/media/3o6ZtbF6rBivPslp9i/giphy.gif" alt="Comfort GIF" width="280">
+        </div>
+    </div>
+
+</body>
+</html>
