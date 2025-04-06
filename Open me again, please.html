@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comfort Message</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #6e7f80, #e4cda7);
+            font-family: 'Arial', sans-serif;
+        }
+
+        .message-container {
+            text-align: center;
+            color: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            background: rgba(0, 0, 0, 0.5);
+            animation: float 5s ease-in-out infinite;
+        }
+
+        .message-container h1 {
+            font-size: 3rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+            margin-bottom: 20px;
+            animation: text-animation 4s ease-in-out infinite;
+        }
+
+        .message-container p {
+            font-size: 1.5rem;
+            line-height: 1.6;
+            color: #ffecb3;
+            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+            max-width: 500px;
+            margin: 0 auto;
+            animation: text-animation 4s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+            100% {
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes text-animation {
+            0% {
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="message-container">
+        <h1>You're Not Alone</h1>
+        <p>Aloha! remember that no matter the storm, you will always have a safe place here. I’ll be by your side, through every up and down, and we’ll make it through together. You're strong, you're capable, and you are loved. Take a deep breath and know that everything will be okay.</p>
+    </div>
+
+</body>
+</html>
