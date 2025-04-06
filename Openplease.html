@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comfort Message</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #f9dada, #a1c4fd);
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            position: relative;
+            animation: float 5s ease-in-out infinite;
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #ffcccb;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.6);
+            animation: text-animation 3s ease-in-out infinite;
+        }
+
+        p {
+            font-size: 1.5rem;
+            line-height: 1.6;
+            color: #fff;
+            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.6);
+            max-width: 600px;
+            margin: 0 auto;
+            animation: text-animation 3s ease-in-out infinite;
+        }
+
+        .gif-container {
+            margin-top: 20px;
+            animation: gif-animation 4s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+            100% {
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes text-animation {
+            0% {
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+
+        @keyframes gif-animation {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Hey, You're Amazing!</h1>
+        <p>Sometimes life throws challenges your way, but remember, you’re stronger than you think. I’ll always be here to support you. You are loved, you are valuable, and you are not alone. Take a deep breath, everything will get better. You’ve got this!</p>
+        
+        <div class="gif-container">
+            <!-- Replace this URL with your preferred GIF URL -->
+            <img src="https://media.giphy.com/media/26FPz4Jb8o8xhlbPU/giphy.gif" alt="Comfort GIF" width="300">
+        </div>
+    </div>
+
+</body>
+</html>
