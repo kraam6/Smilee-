@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Good Morning</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Lobster&family=Poppins:wght@300;400;600&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+            background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+            color: #333;
+        }
+        
+        .container {
+            position: relative;
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow: hidden;
+        }
+        
+        .bg-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        
+        .sun {
+            position: absolute;
+            top: 50px;
+            right: 100px;
+            width: 140px;
+            height: 140px;
+            background: radial-gradient(circle, #ffe259, #ffa751);
+            border-radius: 50%;
+            box-shadow: 0 0 60px rgba(255, 180, 0, 0.6);
+            animation: pulseSun 6s infinite alternate;
+        }
+        
+        @keyframes pulseSun {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 60px rgba(255, 180, 0, 0.6);
+            }
+            100% {
+                transform: scale(1.1);
+                box-shadow: 0 0 80px rgba(255, 180, 0, 0.8);
+            }
+        }
+        
+        .ray {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 200%;
+            height: 3px;
+            background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0));
+            transform-origin: 0 0;
+        }
+        
+        .message-card {
+            position: relative;
+            max-width: 600px;
+            width: 90%;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            transform: translateY(50px);
+            opacity: 0;
+            animation: fadeInUp 1.5s forwards 0.5s;
+            overflow: hidden;
+            z-index: 10;
+        }
+        
+        @keyframes fadeInUp {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .message-card::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to bottom right,
+                rgba(255, 255, 255, 0),
+                rgba(255, 255, 255, 0.1),
+                rgba(255, 255, 255, 0)
+            );
+            transform: rotate(45deg);
+            animation: shimmer 6s linear infinite;
+            z-index: -1;
+        }
+        
+        @keyframes shimmer {
+            0% {
+                transform: rotate(45deg) translateX(-100%);
+            }
+            100% {
+                transform: rotate(45deg) translateX(100%);
+            }
+        }
+        
+        h1 {
+            font-family: 'Lobster', cursive;
+            font-size: 42px;
+            color: #ff7d45;
+            text-align: center;
+            margin-bottom: 20px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 5px rgba(255, 125, 69, 0.3);
+            }
+            to {
+                text-shadow: 0 0 15px rgba(255, 125, 69, 0.6);
+            }
+        }
+        
+        .message {
+            font-size: 18px;
+            line-height: 1.7;
+            margin-bottom: 25px;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.8s forwards 1s;
+        }
+        
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .signature {
+            font-family: 'Lobster', cursive;
+            text-align: right;
+            font-size: 24px;
+            color: #ff7d45;
+            margin-top: 20px;
+            opacity: 0;
+            animation: fadeIn 0.8s forwards 1.5s;
+        }
+        
+        .birds-container {
+            position: absolute;
+            width: 100%;
+            top: 15%;
+            left: 0;
+            z-index: 2;
+        }
+        
+        .bird {
+            position: absolute;
+            background-color: #333;
+            width: 30px;
+            height: 8px;
+            border-radius: 100px;
+            opacity: 0.8;
+        }
+        
+        .bird::before, .bird::after {
+            content: '';
+            position: absolute;
+            background-color: #646363;
+            width: 15px;
+            height: 8px;
+            border-radius: 100px;
+            transform-origin: right center;
+            animation: flap 0.8s infinite alternate;
+        }
+        
+        .bird::before {
+            left: -12px;
+            top: -6px;
+        }
+        
+        .bird::after {
+            left: -12px;
+            top: 6px;
+        }
+        
+        @keyframes flap {
+            from { transform: rotateZ(0); }
+            to { transform: rotateZ(20deg); }
+        }
+        
+        .floating-elements {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            pointer-events: none;
+        }
+        
+        .floating-element {
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 50%;
+            animation: float 10s infinite ease-in-out;
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-20px) rotate(10deg);
+            }
+        }
+        
+        .clouds {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            pointer-events: none;
+        }
+        
+        .cloud {
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 50px;
+            animation: floatCloud linear infinite;
+        }
+        
+        .cloud::before, .cloud::after {
+            content: '';
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+        }
+        
+        .cloud::before {
+            width: 100%;
+            height: 100%;
+            top: -50%;
+            left: 25%;
+        }
+        
+        .cloud::after {
+            width: 100%;
+            height: 100%;
+            top: -50%;
+            right: 25%;
+        }
+        
+        @keyframes floatCloud {
+            from { transform: translateX(-150%); }
+            to { transform: translateX(150vw); }
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 32px;
+            }
+            
+            .message {
+                font-size: 16px;
+            }
+            
+            .signature {
+                font-size: 20px;
+            }
+            
+            .sun {
+                width: 100px;
+                height: 100px;
+                right: 30px;
+                top: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <canvas id="bg-canvas" class="bg-canvas"></canvas>
+        
+        <div class="sun" id="sun">
+            <div class="ray" style="transform: rotate(0deg)"></div>
+            <div class="ray" style="transform: rotate(30deg)"></div>
+            <div class="ray" style="transform: rotate(60deg)"></div>
+            <div class="ray" style="transform: rotate(90deg)"></div>
+            <div class="ray" style="transform: rotate(120deg)"></div>
+            <div class="ray" style="transform: rotate(150deg)"></div>
+        </div>
+        
+        <div class="birds-container" id="birds-container"></div>
+        
+        <div class="clouds" id="clouds"></div>
+        
+        <div class="floating-elements" id="floating-elements"></div>
+        
+        <div class="message-card">
+            <h1>Good Morning!</h1>
+            <div class="message">
+                May your day begin with a smile on your face, gratitude in your heart, and positivity in your mind. 
+                The sun has risen to remind you that new opportunities await, and today is a 
+                perfect day to embrace every beautiful moment that comes your way. 
+                Take a deep breath, feel the morning freshness, and remember that you are 
+                strong, capable, and ready to conquer this day!
+            </div>
+            <div class="signature">Have a wonderful day!</div>
+        </div>
+    </div>
+    
+    <script>
+        // Set up Three.js scene
+        const canvas = document.getElementById('bg-canvas');
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+        
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        
+        // Create particles
+        const particlesGeometry = new THREE.BufferGeometry();
+        const particlesMaterial = new THREE.PointsMaterial({
+            color: 0xFFFFFF,
+            size: 0.03,
+            transparent: true,
+            opacity: 0.6
+        });
+        
+        const particleCount = 2000;
+        const posArray = new Float32Array(particleCount * 3);
+        
+        for (let i = 0; i < particleCount * 3; i += 3) {
+            posArray[i] = (Math.random() - 0.5) * 10;
+            posArray[i + 1] = (Math.random() - 0.5) * 10;
+            posArray[i + 2] = (Math.random() - 0.5) * 10 - 5;
+        }
+        
+        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+        const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+        scene.add(particlesMesh);
+        
+        camera.position.z = 3;
+        
+        // Animation function
+        function animate() {
+            requestAnimationFrame(animate);
+            
+            particlesMesh.rotation.y += 0.0005;
+            particlesMesh.rotation.x += 0.0002;
+            
+            renderer.render(scene, camera);
+        }
+        
+        // Create birds
+        const birdsContainer = document.getElementById('birds-container');
+        
+        function createBird(left, top, delay, size) {
+            const bird = document.createElement('div');
+            bird.classList.add('bird');
+            bird.style.left = left + '%';
+            bird.style.top = top + '%';
+            bird.style.transform = `scale(${size})`;
+            
+            // Animate bird movement
+            bird.animate([
+                { left: '-10%' },
+                { left: '110%' }
+            ], {
+                duration: 15000 + Math.random() * 10000,
+                delay: delay * 1000,
+                iterations: Infinity,
+                easing: 'linear'
+            });
+            
+            birdsContainer.appendChild(bird);
+        }
+        
+        // Create multiple birds
+        createBird(10, 10, 0, 0.7);
+        createBird(20, 15, 2, 0.5);
+        createBird(15, 5, 4, 1);
+        createBird(5, 20, 6, 0.6);
+        createBird(25, 8, 8, 0.8);
+        
+        // Create floating elements
+        const floatingElements = document.getElementById('floating-elements');
+        
+        for (let i = 0; i < 20; i++) {
+            const element = document.createElement('div');
+            element.classList.add('floating-element');
+            
+            const size = Math.random() * 10 + 5;
+            const left = Math.random() * 100;
+            const top = Math.random() * 100;
+            const duration = Math.random() * 5 + 8;
+            const delay = Math.random() * 5;
+            
+            element.style.width = size + 'px';
+            element.style.height = size + 'px';
+            element.style.left = left + '%';
+            element.style.top = top + '%';
+            element.style.animationDuration = duration + 's';
+            element.style.animationDelay = delay + 's';
+            
+            floatingElements.appendChild(element);
+        }
+        
+        // Create clouds
+        const clouds = document.getElementById('clouds');
+        
+        function createCloud(top, size, duration, delay) {
+            const cloud = document.createElement('div');
+            cloud.classList.add('cloud');
+            
+            cloud.style.width = (size * 30) + 'px';
+            cloud.style.height = (size * 10) + 'px';
+            cloud.style.top = top + '%';
+            cloud.style.animationDuration = duration + 's';
+            cloud.style.animationDelay = delay + 's';
+            
+            clouds.appendChild(cloud);
+        }
+        
+        createCloud(10, 1, 60, 0);
+        createCloud(20, 1.5, 80, 10);
+        createCloud(15, 0.8, 70, 20);
+        createCloud(25, 1.2, 65, 30);
+        
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+        
+        // Start animation
+        animate();
+    </script>
+</body>
+</html>
