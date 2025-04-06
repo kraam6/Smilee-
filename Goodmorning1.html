@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Good Morning Message</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to top right, #fceabb, #f8b500);
+      color: #333;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.8);
+      padding: 2rem;
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      max-width: 500px;
+      animation: fadeIn 2s ease-in-out;
+    }
+
+    h1 {
+      font-size: 2.8rem;
+      margin-bottom: 1rem;
+      color: #f57c00;
+    }
+
+    p {
+      font-size: 1.2rem;
+      line-height: 1.6;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Good Morning ☀️</h1>
+    <p>Hey, wake up na! Thank kay God, another day na naman bagong chance para ngumiti at magsimula ulit. <br>
+    Bangonn na, walking naaa hahahah Laban lang, smile, and take it one step at a time. 💛</p>
+  </div>
+
+  <!-- 3D Sun Rays Background using Three.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script>
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ alpha: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+
+    const sunGeometry = new THREE.SphereGeometry(1, 32, 32);
+    const sunMaterial = new THREE.MeshBasicMaterial({ color: 0xffcc00 });
+    const sun = new THREE.Mesh(sunGeometry, sunMaterial);
+    scene.add(sun);
+
+    const rays = [];
+    const rayMaterial = new THREE.MeshBasicMaterial({ color: 0xffe066 });
+
+    for (let i = 0; i < 50; i++) {
+      const rayGeometry = new THREE.ConeGeometry(0.05, 2, 12);
+      const ray = new THREE.Mesh(rayGeometry, rayMaterial);
+      ray.position.set(
+        Math.sin(i) * 2,
+        Math.cos(i) * 2,
+        0
+      );
+      ray.rotation.z = i;
+      rays.push(ray);
+      scene.add(ray);
+    }
+
+    camera.position.z = 5;
+
+    function animate() {
+      requestAnimationFrame(animate);
+      sun.rotation.y += 0.01;
+      rays.forEach(ray => ray.rotation.z += 0.01);
+      renderer.render(scene, camera);
+    }
+    animate();
+  </script>
+</body>
+</html>
