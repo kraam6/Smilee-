@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smile, Don't Be Sad</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #74ebd5, #ACB6E5);
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+        }
+        
+        .container {
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+        
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            animation: fadeIn 1.5s ease-in-out forwards;
+        }
+        
+        p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeIn 1.5s ease-in-out 0.5s forwards;
+        }
+        
+        .sun {
+            width: 120px;
+            height: 120px;
+            background: #FFD700;
+            border-radius: 50%;
+            box-shadow: 0 0 50px #FFD700;
+            position: relative;
+            margin: 0 auto 2rem;
+            animation: pulse 4s infinite ease-in-out;
+        }
+        
+        .face {
+            position: relative;
+            top: 40px;
+        }
+        
+        .eyes {
+            display: flex;
+            justify-content: space-around;
+            width: 60%;
+            margin: 0 auto;
+        }
+        
+        .eye {
+            width: 12px;
+            height: 12px;
+            background: #333;
+            border-radius: 50%;
+            animation: blink 4s infinite;
+        }
+        
+        .smile {
+            width: 60px;
+            height: 30px;
+            border-bottom: 4px solid #333;
+            border-radius: 0 0 50px 50px;
+            margin: 10px auto 0;
+            position: relative;
+        }
+        
+        .floating-shapes {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            overflow: hidden;
+        }
+        
+        .shape {
+            position: absolute;
+            opacity: 0.4;
+            animation: float 15s infinite linear;
+        }
+        
+        .button {
+            padding: 0.8rem 1.8rem;
+            font-size: 1.2rem;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid white;
+            border-radius: 50px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            opacity: 0;
+            animation: fadeIn 1.5s ease-in-out 1s forwards;
+        }
+        
+        .button:hover {
+            background: rgba(255, 255, 255, 0.4);
+            transform: scale(1.05);
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+        }
+        
+        @keyframes blink {
+            0%, 45%, 55%, 100% {
+                transform: scaleY(1);
+            }
+            50% {
+                transform: scaleY(0.1);
+            }
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.4;
+            }
+            90% {
+                opacity: 0.4;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .clouds {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+        }
+        
+        .cloud {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50px;
+            animation: moveCloud linear infinite;
+        }
+        
+        @keyframes moveCloud {
+            0% {
+                transform: translateX(-150px);
+            }
+            100% {
+                transform: translateX(calc(100vw + 150px));
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="clouds" id="clouds"></div>
+    <div class="floating-shapes" id="shapes"></div>
+    
+    <div class="container">
+        <div class="sun">
+            <div class="face">
+                <div class="eyes">
+                    <div class="eye"></div>
+                    <div class="eye"></div>
+                </div>
+                <div class="smile"></div>
+            </div>
+        </div>
+        <h1>Smile, don't be sad</h1>
+        <p>Goodmorningg! Wake up naa hehe. I am here always</p>
+        <button class="button" id="cheerButton">Cheer me up!</button>
+    </div>
+
+    <script>
+        // Create floating shapes
+        const shapes = document.getElementById('shapes');
+        const shapeCount = 20;
+        const shapeTypes = ['❤️', '✨', '🌈', '🌟', '🦋', '🌸', '🌼'];
+        const colors = ['#ff7675', '#74b9ff', '#55efc4', '#ffeaa7', '#fd79a8', '#a29bfe'];
+        
+        for (let i = 0; i < shapeCount; i++) {
+            const shape = document.createElement('div');
+            shape.classList.add('shape');
+            shape.innerHTML = shapeTypes[Math.floor(Math.random() * shapeTypes.length)];
+            shape.style.fontSize = Math.random() * 20 + 15 + 'px';
+            shape.style.left = Math.random() * 100 + '%';
+            shape.style.animationDuration = Math.random() * 10 + 10 + 's';
+            shape.style.animationDelay = Math.random() * 5 + 's';
+            shapes.appendChild(shape);
+        }
+        
+        // Create clouds
+        const cloudsContainer = document.getElementById('clouds');
+        const cloudCount = 6;
+        
+        for (let i = 0; i < cloudCount; i++) {
+            const cloud = document.createElement('div');
+            cloud.classList.add('cloud');
+            
+            // Random cloud size
+            const width = Math.random() * 100 + 100;
+            const height = width * 0.6;
+            
+            cloud.style.width = width + 'px';
+            cloud.style.height = height + 'px';
+            cloud.style.top = Math.random() * 80 + '%';
+            cloud.style.animationDuration = Math.random() * 30 + 60 + 's';
+            cloud.style.animationDelay = -Math.random() * 60 + 's';
+            
+            cloudsContainer.appendChild(cloud);
+        }
+        
+        // Cheer up button functionality
+        const cheerButton = document.getElementById('cheerButton');
+        const positiveMessages = [
+            "You're stronger than you think!",
+            "Every day is a new beginning.",
+            "Your smile lights up the world!",
+            "Believe in yourself as much as I believe in you.",
+            "You're doing great, keep going!",
+            "You matter more than you know.",
+            "The sun will shine again, just like your smile!"
+        ];
+        
+        cheerButton.addEventListener('click', () => {
+            const h1 = document.querySelector('h1');
+            h1.style.animation = 'none';
+            h1.offsetHeight; // Force reflow
+            h1.style.animation = 'fadeIn 1s ease-in-out forwards';
+            h1.textContent = positiveMessages[Math.floor(Math.random() * positiveMessages.length)];
+            
+            // Create burst of hearts
+            for (let i = 0; i < 15; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.classList.add('shape');
+                    heart.innerHTML = '❤️';
+                    heart.style.fontSize = Math.random() * 20 + 20 + 'px';
+                    heart.style.left = 50 + (Math.random() * 40 - 20) + '%';
+                    heart.style.top = 50 + '%';
+                    heart.style.animationDuration = Math.random() * 5 + 5 + 's';
+                    heart.style.zIndex = '2';
+                    shapes.appendChild(heart);
+                    
+                    // Remove after animation
+                    setTimeout(() => {
+                        shapes.removeChild(heart);
+                    }, 5000);
+                }, i * 100);
+            }
+        });
+    </script>
+</body>
+</html>
