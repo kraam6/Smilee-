@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Good Morning Smile</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ffb6c1, #ff69b4);
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+        }
+        
+        .container {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            background-color: rgba(255, 192, 203, 0.2);
+            backdrop-filter: blur(5px);
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(255, 105, 180, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            max-width: 90%;
+        }
+        
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            animation: fadeIn 1.5s ease-in-out forwards;
+            color: #fff;
+        }
+        
+        .goodmorning {
+            font-size: 3.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #fff, #ffadc7);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0px 2px 5px rgba(255, 105, 180, 0.3);
+            opacity: 0;
+            animation: popIn 1.2s cubic-bezier(0.17, 0.67, 0.83, 0.67) forwards;
+        }
+        
+        p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeIn 1.5s ease-in-out 0.5s forwards;
+        }
+        
+        .flower-container {
+            width: 150px;
+            height: 150px;
+            position: relative;
+            margin: 0 auto 2rem;
+        }
+        
+        .flower {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            animation: spin 12s infinite linear;
+        }
+        
+        .petal {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background: #ff80ab;
+            border-radius: 50% 50% 0 50%;
+            top: 50px;
+            left: 50px;
+            transform-origin: 0 0;
+            box-shadow: 0 0 10px rgba(255, 128, 171, 0.7);
+        }
+        
+        .center {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: #ffd700;
+            border-radius: 50%;
+            top: 55px;
+            left: 55px;
+            z-index: 2;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+        }
+        
+        .floating-hearts {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            overflow: hidden;
+        }
+        
+        .heart {
+            position: absolute;
+            opacity: 0.6;
+            animation: float 15s infinite linear;
+            color: #fff;
+        }
+        
+        .button {
+            padding: 0.8rem 1.8rem;
+            font-size: 1.2rem;
+            background: rgba(255, 182, 193, 0.4);
+            border: 2px solid white;
+            border-radius: 50px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            opacity: 0;
+            animation: fadeIn 1.5s ease-in-out 1s forwards;
+        }
+        
+        .button:hover {
+            background: rgba(255, 105, 180, 0.6);
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+        }
+        
+        .sunrise {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 30%;
+            z-index: 0;
+            overflow: hidden;
+        }
+        
+        .sun {
+            position: absolute;
+            bottom: -80px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 160px;
+            height: 160px;
+            background: #ff9e80;
+            border-radius: 50%;
+            box-shadow: 0 0 60px #ff9e80, 0 0 100px #ffcc80;
+            animation: rise 8s ease-out forwards;
+        }
+        
+        .birds {
+            position: absolute;
+            top: 20%;
+            left: 0;
+            width: 100%;
+            z-index: 1;
+        }
+        
+        .bird {
+            position: absolute;
+            font-size: 20px;
+            color: white;
+            animation: fly 20s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.6;
+            }
+            90% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes popIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            70% {
+                transform: scale(1.1);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        @keyframes rise {
+            0% {
+                transform: translateX(-50%) translateY(0);
+            }
+            100% {
+                transform: translateX(-50%) translateY(-100px);
+            }
+        }
+        
+        @keyframes fly {
+            0% {
+                transform: translateX(-100px) translateY(0) scale(0.7);
+            }
+            20% {
+                transform: translateX(20vw) translateY(-50px) scale(0.8);
+            }
+            40% {
+                transform: translateX(40vw) translateY(-30px) scale(0.7);
+            }
+            60% {
+                transform: translateX(60vw) translateY(-70px) scale(0.9);
+            }
+            80% {
+                transform: translateX(80vw) translateY(-40px) scale(0.7);
+            }
+            100% {
+                transform: translateX(120vw) translateY(-60px) scale(0.8);
+            }
+        }
+        
+        @keyframes sparkle {
+            0%, 100% {
+                opacity: 0.2;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
+        
+        .sparkle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background-color: white;
+            box-shadow: 0 0 8px white;
+            animation: sparkle 2s infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-hearts" id="hearts"></div>
+    
+    <div class="sunrise">
+        <div class="sun"></div>
+    </div>
+    
+    <div class="birds" id="birds"></div>
+    
+    <div class="container">
+        <div class="flower-container">
+            <div class="flower" id="flower">
+                <div class="center"></div>
+            </div>
+        </div>
+        <h1 class="goodmorning">Goodmorning!!!</h1>
+        <h1>Smile, don't be sad</h1>
+        <p>I am here always</p>
+        <button class="button" id="cheerButton">Brighten my day!</button>
+    </div>
+
+    <script>
+        // Create petals for the flower
+        const flower = document.getElementById('flower');
+        const petalCount = 8;
+        
+        for (let i = 0; i < petalCount; i++) {
+            const petal = document.createElement('div');
+            petal.classList.add('petal');
+            const angle = (i / petalCount) * 360;
+            petal.style.transform = `rotate(${angle}deg)`;
+            flower.appendChild(petal);
+        }
+        
+        // Create floating hearts
+        const hearts = document.getElementById('hearts');
+        const heartCount = 30;
+        const heartEmojis = ['❤️', '💕', '💖', '💓', '💗', '💘', '💝'];
+        
+        for (let i = 0; i < heartCount; i++) {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+            heart.style.fontSize = Math.random() * 20 + 15 + 'px';
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.animationDuration = Math.random() * 10 + 10 + 's';
+            heart.style.animationDelay = Math.random() * 5 + 's';
+            hearts.appendChild(heart);
+        }
+        
+        // Add birds
+        const birds = document.getElementById('birds');
+        const birdCount = 5;
+        
+        for (let i = 0; i < birdCount; i++) {
+            const bird = document.createElement('div');
+            bird.classList.add('bird');
+            bird.innerHTML = '🕊️';
+            bird.style.top = Math.random() * 100 + 'px';
+            bird.style.animationDuration = (Math.random() * 10 + 15) + 's';
+            bird.style.animationDelay = Math.random() * 5 + 's';
+            birds.appendChild(bird);
+        }
+        
+        // Add sparkles to the container
+        const container = document.querySelector('.container');
+        const sparkleCount = 20;
+        
+        for (let i = 0; i < sparkleCount; i++) {
+            const sparkle = document.createElement('div');
+            sparkle.classList.add('sparkle');
+            sparkle.style.top = Math.random() * 100 + '%';
+            sparkle.style.left = Math.random() * 100 + '%';
+            sparkle.style.animationDelay = Math.random() * 2 + 's';
+            container.appendChild(sparkle);
+        }
+        
+        // Cheer up button functionality
+        const cheerButton = document.getElementById('cheerButton');
+        const positiveMessages = [
+            "Today is full of wonderful possibilities!",
+            "Your smile makes the world more beautiful!",
+            "Every morning is a fresh start to shine!",
+            "You're amazing just as you are!",
+            "Let your light shine bright today!",
+            "The day is as beautiful as your heart!",
+            "You bring sunshine to everyone around you!"
+        ];
+        
+        cheerButton.addEventListener('click', () => {
+            const goodMorning = document.querySelector('.goodmorning');
+            goodMorning.style.animation = 'none';
+            goodMorning.offsetHeight; // Force reflow
+            goodMorning.style.animation = 'popIn 1s cubic-bezier(0.17, 0.67, 0.83, 0.67) forwards';
+            goodMorning.textContent = positiveMessages[Math.floor(Math.random() * positiveMessages.length)];
+            
+            // Create burst of hearts
+            for (let i = 0; i < 15; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.classList.add('heart');
+                    heart.innerHTML = '💖';
+                    heart.style.fontSize = Math.random() * 20 + 20 + 'px';
+                    heart.style.left = 50 + (Math.random() * 40 - 20) + '%';
+                    heart.style.top = 50 + '%';
+                    heart.style.animationDuration = Math.random() * 5 + 5 + 's';
+                    heart.style.zIndex = '3';
+                    hearts.appendChild(heart);
+                    
+                    // Remove after animation
+                    setTimeout(() => {
+                        hearts.removeChild(heart);
+                    }, 5000);
+                }, i * 100);
+            }
+            
+            // Make the sun pulse
+            const sun = document.querySelector('.sun');
+            sun.style.animation = 'rise 8s ease-out forwards, pulse 2s 3 ease-in-out';
+        });
+    </script>
+</body>
+</html>

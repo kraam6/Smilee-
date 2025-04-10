@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Good Morning, Smilee</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@300;400;600&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Quicksand', sans-serif;
+            height: 100vh;
+            overflow: hidden;
+            background: linear-gradient(135deg, #ffd1dc, #ffb6c1, #ffc0cb);
+            color: #fff;
+        }
+        
+        .container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .circle-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+            z-index: 0;
+        }
+        
+        .circle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(5px);
+            animation: float linear infinite;
+        }
+        
+        .blossom-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+            z-index: 1;
+            pointer-events: none;
+        }
+        
+        .blossom {
+            position: absolute;
+            color: #fff;
+            opacity: 0.8;
+            animation: falling linear infinite;
+            z-index: 1;
+        }
+        
+        .content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding: 2rem;
+            max-width: 900px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(255, 182, 193, 0.3);
+            animation: pulse 6s infinite ease-in-out;
+        }
+        
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 8rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(to right, #ffffff, #ffccd5);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 2px 2px 8px rgba(255, 182, 193, 0.3);
+            transform-origin: center;
+            animation: titleWave 10s infinite ease-in-out;
+        }
+        
+        .subtitle {
+            font-size: 1.8rem;
+            font-weight: 300;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+        
+        .time {
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin: 1.5rem 0;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 2rem;
+            border-radius: 50px;
+            display: inline-block;
+        }
+        
+        .date {
+            font-size: 1.2rem;
+            opacity: 0.8;
+            margin-bottom: 1.5rem;
+        }
+        
+        .butterfly-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+        
+        .butterfly {
+            position: absolute;
+            font-size: 1.5rem;
+            animation: fly 20s linear infinite;
+        }
+        
+        .button {
+            margin-top: 1.5rem;
+            padding: 0.8rem 2rem;
+            font-size: 1.1rem;
+            background: rgba(255, 255, 255, 0.25);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            border-radius: 50px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Quicksand', sans-serif;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .button:hover {
+            background: rgba(255, 255, 255, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            transition: transform 0.5s ease-out;
+        }
+        
+        .button:hover::before {
+            transform: translate(-50%, -50%) scale(1.5);
+        }
+        
+        .button span {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .quote {
+            margin: 1.5rem 0;
+            font-style: italic;
+            font-size: 1.3rem;
+            max-width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+        
+        .sun {
+            position: absolute;
+            top: 10%;
+            right: 10%;
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(to right, #ffb6c1, #ff69b4);
+            border-radius: 50%;
+            box-shadow: 0 0 60px #ff69b4;
+            z-index: 0;
+            animation: glow 4s infinite alternate;
+        }
+        
+        .birds {
+            position: absolute;
+            bottom: 20%;
+            left: 10%;
+            transform: scale(0.7);
+            z-index: 1;
+            opacity: 0.8;
+        }
+        
+        .bird {
+            position: absolute;
+            background: #fff;
+            border-radius: 50% 50% 0 0;
+        }
+        
+        .bird:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            width: 0;
+            height: 0;
+            border-style: solid;
+        }
+        
+        .sparkle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background-color: white;
+            border-radius: 50%;
+            box-shadow: 0 0 8px white;
+            opacity: 0;
+            animation: sparkle 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.02);
+            }
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+            }
+        }
+        
+        @keyframes falling {
+            0% {
+                transform: translate(0, -5%) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.8;
+            }
+            90% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translate(var(--translate-x), 105vh) rotate(var(--rotate-deg));
+                opacity: 0;
+            }
+        }
+        
+        @keyframes fly {
+            0% {
+                transform: translate(var(--start-x), var(--start-y)) scale(0.8);
+            }
+            25% {
+                transform: translate(var(--mid1-x), var(--mid1-y)) scale(1);
+            }
+            50% {
+                transform: translate(var(--mid2-x), var(--mid2-y)) scale(0.9);
+            }
+            75% {
+                transform: translate(var(--mid3-x), var(--mid3-y)) scale(1.1);
+            }
+            100% {
+                transform: translate(var(--end-x), var(--end-y)) scale(0.8);
+            }
+        }
+        
+        @keyframes glow {
+            0% {
+                box-shadow: 0 0 20px #ff69b4;
+            }
+            100% {
+                box-shadow: 0 0 70px #ff69b4, 0 0 100px #ff69b4;
+            }
+        }
+        
+        @keyframes titleWave {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.03);
+            }
+        }
+        
+        @keyframes sparkle {
+            0%, 100% {
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="circle-container" id="circles"></div>
+    <div class="blossom-container" id="blossoms"></div>
+    <div class="butterfly-container" id="butterflies"></div>
+    <div class="sun"></div>
+    
+    <div class="container">
+        <div class="content">
+            <h1>Goodmorning</h1>
+            <div class="subtitle">Start your day with a smile</div>
+            <div class="time" id="time">00:00</div>
+            <div class="date" id="date">Wednesday, April 10, 2025</div>
+            <div class="quote" id="quote">Every sunrise is a new page in your story, make it a wonderful one.</div>
+            <button class="button" id="refreshQuote"><span>Hit me up!</span></button>
+        </div>
+    </div>
+    
+    <div class="birds">
+        <div class="bird" style="width:15px;height:15px;left:0;animation: birdMove1 10s infinite ease-in-out;">
+            <div style="width:15px;height:8px;background:white;position:absolute;top:10px;left:-8px;border-radius:50% 0 0 50%;transform:rotate(45deg);"></div>
+            <div style="width:15px;height:8px;background:white;position:absolute;top:10px;right:-8px;border-radius:0 50% 50% 0;transform:rotate(-45deg);"></div>
+        </div>
+        <div class="bird" style="width:12px;height:12px;left:30px;top:20px;animation: birdMove2 15s infinite ease-in-out;">
+            <div style="width:12px;height:6px;background:white;position:absolute;top:8px;left:-6px;border-radius:50% 0 0 50%;transform:rotate(45deg);"></div>
+            <div style="width:12px;height:6px;background:white;position:absolute;top:8px;right:-6px;border-radius:0 50% 50% 0;transform:rotate(-45deg);"></div>
+        </div>
+        <div class="bird" style="width:10px;height:10px;left:60px;top:10px;animation: birdMove3 12s infinite ease-in-out;">
+            <div style="width:10px;height:5px;background:white;position:absolute;top:6px;left:-5px;border-radius:50% 0 0 50%;transform:rotate(45deg);"></div>
+            <div style="width:10px;height:5px;background:white;position:absolute;top:6px;right:-5px;border-radius:0 50% 50% 0;transform:rotate(-45deg);"></div>
+        </div>
+    </div>
+
+    <script>
+        // Create floating circles
+        const circles = document.getElementById('circles');
+        const circleCount = 15;
+        
+        for (let i = 0; i < circleCount; i++) {
+            const circle = document.createElement('div');
+            circle.classList.add('circle');
+            
+            // Random size and position
+            const size = Math.random() * 200 + 50;
+            const left = Math.random() * 100;
+            const startDelay = Math.random() * 100;
+            const duration = Math.random() * 60 + 60;
+            
+            circle.style.width = size + 'px';
+            circle.style.height = size + 'px';
+            circle.style.left = left + '%';
+            circle.style.top = (100 + startDelay) + '%';
+            circle.style.animationDuration = duration + 's';
+            
+            const hue = 350 + Math.random() * 20; // Pink hues
+            const lightness = 80 + Math.random() * 15;
+            circle.style.background = `hsla(${hue}, 100%, ${lightness}%, 0.15)`;
+            
+            circles.appendChild(circle);
+        }
+        
+        // Create cherry blossoms
+        const blossoms = document.getElementById('blossoms');
+        const blossomCount = 30;
+        const blossomTypes = ['🌸', '🌷', '💮', '🌹', '🌺', '💐', '🏵️'];
+        
+        for (let i = 0; i < blossomCount; i++) {
+            const blossom = document.createElement('div');
+            blossom.classList.add('blossom');
+            blossom.innerHTML = blossomTypes[Math.floor(Math.random() * blossomTypes.length)];
+            
+            // Random position and animation
+            const left = Math.random() * 100;
+            const size = Math.random() * 20 + 15;
+            const duration = Math.random() * 10 + 15;
+            const delay = Math.random() * 15;
+            const translateX = Math.random() * 200 - 100;
+            const rotateDeg = Math.random() * 720 - 360;
+            
+            blossom.style.left = left + '%';
+            blossom.style.top = -10 + '%';
+            blossom.style.fontSize = size + 'px';
+            blossom.style.animationDuration = duration + 's';
+            blossom.style.animationDelay = delay + 's';
+            blossom.style.setProperty('--translate-x', translateX + 'px');
+            blossom.style.setProperty('--rotate-deg', rotateDeg + 'deg');
+            
+            blossoms.appendChild(blossom);
+        }
+        
+        // Create butterflies
+        const butterflies = document.getElementById('butterflies');
+        const butterflyCount = 7;
+        const butterflyTypes = ['🦋', '🦄', '✨'];
+        
+        for (let i = 0; i < butterflyCount; i++) {
+            const butterfly = document.createElement('div');
+            butterfly.classList.add('butterfly');
+            butterfly.innerHTML = butterflyTypes[Math.floor(Math.random() * butterflyTypes.length)];
+            
+            // Random path
+            const startX = '-50px';
+            const startY = Math.random() * 100 + 'vh';
+            const mid1X = Math.random() * 30 + 20 + 'vw';
+            const mid1Y = Math.random() * 100 + 'vh';
+            const mid2X = Math.random() * 30 + 50 + 'vw';
+            const mid2Y = Math.random() * 100 + 'vh';
+            const mid3X = Math.random() * 20 + 70 + 'vw';
+            const mid3Y = Math.random() * 100 + 'vh';
+            const endX = '110vw';
+            const endY = Math.random() * 100 + 'vh';
+            
+            butterfly.style.setProperty('--start-x', startX);
+            butterfly.style.setProperty('--start-y', startY);
+            butterfly.style.setProperty('--mid1-x', mid1X);
+            butterfly.style.setProperty('--mid1-y', mid1Y);
+            butterfly.style.setProperty('--mid2-x', mid2X);
+            butterfly.style.setProperty('--mid2-y', mid2Y);
+            butterfly.style.setProperty('--mid3-x', mid3X);
+            butterfly.style.setProperty('--mid3-y', mid3Y);
+            butterfly.style.setProperty('--end-x', endX);
+            butterfly.style.setProperty('--end-y', endY);
+            
+            const duration = Math.random() * 30 + 30;
+            const delay = Math.random() * 15;
+            butterfly.style.animationDuration = duration + 's';
+            butterfly.style.animationDelay = delay + 's';
+            
+            butterflies.appendChild(butterfly);
+        }
+        
+        // Add sparkles to the content
+        const content = document.querySelector('.content');
+        const sparkleCount = 20;
+        
+        for (let i = 0; i < sparkleCount; i++) {
+            const sparkle = document.createElement('div');
+            sparkle.classList.add('sparkle');
+            
+            sparkle.style.top = Math.random() * 100 + '%';
+            sparkle.style.left = Math.random() * 100 + '%';
+            sparkle.style.animationDelay = (Math.random() * 2) + 's';
+            
+            content.appendChild(sparkle);
+        }
+        
+        // Bird animations
+        document.head.insertAdjacentHTML('beforeend', `
+            <style>
+                @keyframes birdMove1 {
+                    0%, 100% { transform: translateY(0); }
+                    50% { transform: translateY(-15px); }
+                }
+                @keyframes birdMove2 {
+                    0%, 100% { transform: translateY(0); }
+                    50% { transform: translateY(-20px); }
+                }
+                @keyframes birdMove3 {
+                    0%, 100% { transform: translateY(0); }
+                    50% { transform: translateY(-10px); }
+                }
+            </style>
+        `);
+        
+        // Update time and date
+        function updateTimeAndDate() {
+            const now = new Date();
+            
+            // Time
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            document.getElementById('time').textContent = `${hours}:${minutes}`;
+            
+            // Date
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const dateString = now.toLocaleDateString('en-US', options);
+            document.getElementById('date').textContent = dateString;
+            
+            requestAnimationFrame(() => setTimeout(updateTimeAndDate, 1000));
+        }
+        
+        // Inspirational morning quotes
+        const quotes = [
+            "Every sunrise is a new page in your story, make it a wonderful one.",
+            "Let your smile change the world, but never let the world change your smile.",
+            "The best time for new beginnings is now.",
+            "Wake up with determination, go to bed with satisfaction.",
+            "Each morning we are born again. What we do today matters most.",
+            "A little progress each day adds up to big results.",
+            "The sun is a daily reminder that we too can rise again from the darkness.",
+            "Happiness is the new rich. Inner peace is the new success.",
+            "Your future is created by what you do today, not tomorrow.",
+            "Begin each day with a grateful heart and positive thoughts."
+        ];
+        
+        // Update quote button
+        document.getElementById('refreshQuote').addEventListener('click', () => {
+            const quoteElement = document.getElementById('quote');
+            
+            // Get a new random quote (different from current)
+            let currentQuote = quoteElement.textContent;
+            let newQuote;
+            do {
+                newQuote = quotes[Math.floor(Math.random() * quotes.length)];
+            } while (newQuote === currentQuote && quotes.length > 1);
+            
+            // Animate quote change
+            quoteElement.style.opacity = 0;
+            setTimeout(() => {
+                quoteElement.textContent = newQuote;
+                quoteElement.style.opacity = 0.9;
+            }, 500);
+            
+            // Add extra blossom shower effect
+            for (let i = 0; i < 10; i++) {
+                setTimeout(() => {
+                    const blossom = document.createElement('div');
+                    blossom.classList.add('blossom');
+                    blossom.innerHTML = blossomTypes[Math.floor(Math.random() * blossomTypes.length)];
+                    
+                    const left = Math.random() * 80 + 10;
+                    const size = Math.random() * 30 + 20;
+                    const duration = Math.random() * 5 + 10;
+                    const translateX = Math.random() * 100 - 50;
+                    const rotateDeg = Math.random() * 720 - 360;
+                    
+                    blossom.style.left = left + '%';
+                    blossom.style.top = -10 + '%';
+                    blossom.style.fontSize = size + 'px';
+                    blossom.style.animationDuration = duration + 's';
+                    blossom.style.setProperty('--translate-x', translateX + 'px');
+                    blossom.style.setProperty('--rotate-deg', rotateDeg + 'deg');
+                    
+                    blossoms.appendChild(blossom);
+                    
+                    // Remove after animation completes
+                    setTimeout(() => {
+                        blossoms.removeChild(blossom);
+                    }, duration * 1000);
+                }, i * 200);
+            }
+            
+            // Button effect
+            const button = document.getElementById('refreshQuote');
+            button.classList.add('clicked');
+            setTimeout(() => {
+                button.classList.remove('clicked');
+            }, 500);
+        });
+        
+        // Initialize
+        window.addEventListener('load', () => {
+            updateTimeAndDate();
+            
+            // Set initial random quote
+            document.getElementById('quote').textContent = quotes[Math.floor(Math.random() * quotes.length)];
+        });
+    </script>
+</body>
+</html>
